@@ -6,16 +6,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRUD Firebase</title>
     <script type="module" src="../src/actions.js"></script>
+    <script type="module" src="../src/firebase/database.js"></script>
     <script type="module" src="../src/firebase/login.js"></script>
 </head>
 
 <body>
     <div>
-        <h1>Bem-vindo!</h1>
-        <button id='singin'>Entrar com google</button>
-        <button id='singout'>sair</button>
-        <div>
-            <button id='sendData'>Enviar Dados</button>
+        <h1>Login</h1>
+        <button id='singIn'>Entrar com Google</button>
+        <button id='singOut'>Sair</button>
+        <hr>
+
+        <div class="gAuth" style="display: none;">
+            <h1>Dados do usuário:</h1>
+            <div class="userData">
+                <p>Usuário não logado!</p>
+            </div>
+            <hr>
+
+            <h1>Novos contatos:</h1>
+            <input type="text" id="newName" placeholder="Nome" required>
+            <input type="number" id="newNumber" placeholder="Número" required>
+            <input type="button" id='sendData' value="Adicionar">
+            <hr>
+
+            <h1>Meus contatos:</h1>
+            <input id="showData" type="button" value="Mostrar Contatos">
+            <br>
+            <br>
+            <input type="search" id="searchName" placeholder="Procure nomes...">
+            <input type="button" id="btnSearchName" value="pesquisar">
+            <br>
+            <br>
+            <div>
+                <table id="listDatabase"></table>
+            </div>
+            <hr>
+
+            <h1>Editar contato:</h1>
+            <input type="text" id="dataIdUpdate" placeholder="Doc ID">
+            <input type="button" id='searchData' value="Procurar">
+            <br>
+            <br>
+            <input type="text" id="editName" placeholder="Nome" required>
+            <input type="number" id="editNumber" placeholder="Número" required>
+            <input type="button" id='updateData' value="Salvar">
+            <hr>
+
+            <h1 style="color:red;">Excluir contato:</h1>
+            <input type="text" id="dataIdDel" placeholder="Doc ID" required>
+            <input type="button" id='delData' value="Excluir">
+            <hr>
         </div>
     </div>
 </body>

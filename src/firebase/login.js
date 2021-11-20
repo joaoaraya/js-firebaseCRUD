@@ -1,5 +1,6 @@
 /* Importar dependencias */
 import app from './app.js'
+import { userData, pAuth } from '../actions.js'
 import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js'//'firebase/auth';
 
 const auth = getAuth(app);
@@ -45,24 +46,27 @@ const setLoginStatus = () => onAuthStateChanged(auth, (user) => {
 
 const userStatusOn = () => {
     loginStatus = true;
-    console.log('logado!')
+    pAuth.style.display = 'block'; // Esconder página
+    console.log('logado!');
 }
 
 const userStatusOff = () => {
     loginStatus = false;
+    pAuth.style.display = 'none'; // Mostrar página
+    userData.innerHTML = '<p>Usuário não logado!</p>';
     console.log('não loagado!');
 }
-
 
 // Informar dados do usuário
 const userInfo = (result) => {
     const usuario = result.user;
 
-    console.log(usuario.displayName);
-    console.log(usuario.email);
-    console.log(usuario.photoURL)
+    userData.innerHTML = `
+    <img src='${usuario.photoURL}' alt='foto do usuário'>
+    <p>Nome: ${usuario.displayName}</p>
+    <p>E-mail: ${usuario.email} </p>`;
 
-    // tudo
+    // Mostra tudo:
     // console.log(usuario);
 }
 
