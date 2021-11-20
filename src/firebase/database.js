@@ -1,41 +1,49 @@
 import { loginStatus } from './login.js'
 import { newName, newNumber, listDatabase, dataIdDel, dataIdUpdate, editName, editNumber, searchName } from '../actions.js'
-import { getFirestore, collection, doc, addDoc, updateDoc, getDoc, getDocs, deleteDoc, query, orderBy, collectionGroup } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js' //'firebase/firestore';
+import { getFirestore, collection, doc, addDoc, updateDoc, getDoc, getDocs, deleteDoc, query, orderBy, startAt, endAt,collectionGroup , where} from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js' //'firebase/firestore';
 
 // Databse do Firestore
 const db = getFirestore();
 const dbCollection = 'contatos' // Nome da coleção que escolher
 
-// Ler todos os dados
+// Mostrar Tabela
+const montarTabela = (querySnapshot) => {
+    let n = 0;
+
+    listDatabase.innerHTML = `
+        <tr>
+            <th>Pos</th>
+            <th>Doc ID</th>
+            <th>Nome</th>
+            <th>Número</th>
+        </tr>`;
+
+    querySnapshot.forEach((doc) => {
+        listDatabase.innerHTML += `
+            <tr>
+                <td>${n++}</td>
+                <td>${doc.id}</td>
+                <td>${doc.data().nome}</td>
+                <td>${doc.data().numero}</td>
+            </tr>`
+        // Mostrar todos os dados do doc:
+        //console.log(doc.id, " => ", doc.data());
+    });
+}
+
+/* ---------------- CRUD ----------------- */
+
+// Ler todos os dados dos documentos
 export async function lerDados() {
     if (loginStatus) {
         const q = query(collection(db, dbCollection), orderBy("id", "asc"));
         const querySnapshot = await getDocs(q);
-        let n = 0;
-
-        listDatabase.innerHTML = `
-            <tr>
-                <th>Pos</th>
-                <th>Doc ID</th>
-                <th>Nome</th>
-                <th>Número</th>
-            </tr>`;
-
-        querySnapshot.forEach((doc) => {
-            listDatabase.innerHTML += `
-                <tr>
-                    <td>${n++}</td>
-                    <td>${doc.id}</td>
-                    <td>${doc.data().nome}</td>
-                    <td>${doc.data().numero}</td>
-                </tr>`
-            // Mostrar todos os dados do doc:
-            //console.log(doc.id, " => ", doc.data());
-        });
+        
+        montarTabela(querySnapshot);
     }
 }
 
-// Ler um documento
+// Ler dados de um documento
 export async function lerDoc() {
     if (loginStatus) {
         const colecao = doc(db, dbCollection, dataIdUpdate.value);
@@ -52,38 +60,21 @@ export async function lerDoc() {
     }
 }
 
-// Prucurar dados
+// Procurar dados nos documentos
 export async function procurarDados() {
     if (loginStatus) {
-        const q = query(collectionGroup(db, dbCollection), where("nome", ">=", searchName.value));
-        const querySnapshot = await getDocs(q);
-        let n = 0;
-
-        console.log(searchName.value)
-
-        listDatabase.innerHTML = `
-            <tr>
-                <th>Pos</th>
-                <th>Doc ID</th>
-                <th>Nome</th>
-                <th>Número</th>
-            </tr>`;
-
-        querySnapshot.forEach((doc) => {
-            listDatabase.innerHTML += `
-                <tr>
-                    <td>${n++}</td>
-                    <td>${doc.id}</td>
-                    <td>${doc.data().nome}</td>
-                    <td>${doc.data().numero}</td>
-                </tr>`
-            // Mostrar todos os dados do doc:
-            //console.log(doc.id, " => ", doc.data());
-        });
+        if (loginStatus) {
+            const q = query(collection(db, dbCollection), orderBy('nome'), startAt(searchName.value), endAt(searchName.value+'\uf8ff'));
+            //const q = query(collection(db, dbCollection), where("nome", "==", searchName.value));
+            const querySnapshot = await getDocs(q);
+            
+            montarTabela(querySnapshot);
+            // console.log(searchName.value)
+        }
     }
 }
 
-// Criar novos dados
+// Criar novos documentos com os dados
 export async function criarDados() {
     if (loginStatus) {
         // Qual database e grupo?
@@ -107,7 +98,7 @@ export async function criarDados() {
     }
 }
 
-// Atualizar dados
+// Atualizar dados do documento
 export async function atualizarDados() {
     if (loginStatus) {
         // Qual database, grupo e ID do Doc?
@@ -130,7 +121,7 @@ export async function atualizarDados() {
     }
 }
 
-// Deletar dados
+// Deletar documento
 export async function delDados() {
     if (loginStatus) {
         const colecao = doc(db, dbCollection, dataIdDel.value); //database, coleção e ID do doc
