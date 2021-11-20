@@ -1,5 +1,5 @@
 # js-firebaseCRUD
-Autenticação com Google. Criar, atualizar, remover e ler dados no Firestore
+Autenticação com Google. Criar, atualizar, remover, ler e pesquisar dados no Firestore do Firebase
 
 #Crie uma pasta na raiz do projeto com o nome 'token' e crie um arquivo dentro dela 'firebase.js'
 inclua a configuração do projeto, acessando as configuraçẽos do seu aplicativo no firebase, inclua:
