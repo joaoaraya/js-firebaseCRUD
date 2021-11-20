@@ -2,7 +2,7 @@
 
 OBS: Esse projeto está em JavaScript puro, para aplica-lo em um projeto com Node.JS siga os passos abaixo:
 
-#### 1º no terminal do seu vs digite: 
+#### 1º no terminal do seu projeto digite: 
 
 ```npm
 npm install firebase
