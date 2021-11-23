@@ -16,6 +16,8 @@ npm install firebase
 
 ### firebase.js
 ```js
+/* Substitua o "xxx" pelos dados do seu aplicativo */
+
 const firebaseConfig = {
     apiKey: "xxx",
     authDomain: "xxx",
@@ -25,7 +27,7 @@ const firebaseConfig = {
     appId: "xxx"
 }
 export default firebaseConfig;
-```
+``` 
 
 ### Regras do Firestore (no Firebase):
 ```js
